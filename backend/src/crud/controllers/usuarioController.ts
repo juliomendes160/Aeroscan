@@ -10,7 +10,7 @@ export const Salvar = async (req: Request, res: Response) => {
 
 export const Listar = (req: Request, res: Response) =>{
     usuarioDao.Listar().then(promise => {
-        res.status(200).json(JSON.stringify(promise));
+        res.status(200).json(promise);
     })
 }
 

@@ -1,78 +1,61 @@
 $(document).ready(function() {
 
-    var url = null;
-    var method = null ;
-    var data = null;
-
+    const form = $('form');
+    const table = $('table');
     // $(document).on('click', '[data-button=Listar]',(event)=>Requisitar(event, Listar));
+    $(document).on('click', '[data-button=Salvar]', (event)=> Salvar(event));
     $(document).on('click', '[data-button=Listar]',(event)=>Listar(event));
-    $(document).on('click', '[data-button=Salvar]', (event)=> Requisitar(event, Salvar));
     
-    // const Requisitar = (event, callback) => {
-    //     event.preventDefault();
-    //     callback();
-    //     return;
-    //     console.log(url, method, data);
-
-   
-        // $.ajax({
-        //     url: url,
-        //     method: method,
-        //     data: data,
-        //     success: function(xhr, status, response) {
-        //         console.log(response);
-        //         callback(response);
-        //     },
-        //     error: function(xhr, status, error) {
-        //         console.error(error);
-        //     }
-        // });
-    // }
-
-    const Requisitar = () => {
+    const Requisitar = (url, method, data) => {
         console.log(url, method, data);
-        
-        return $.ajax({url: url,method: method,data: data});
-        $.ajax({
-            url: url,
-            method: method,
-            data: data,
-            success: function(xhr, status, response) {
-            //    Listar(null, response);
-            console.log(xhr.status);
-            console.log(response.status);
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-            }
-        });
-    
+        return $.ajax({url: url, method: method, data: data})
     }
 
-    const Salvar = () => {
+    const Salvar = (event) => {
+        event.preventDefault();
+
         url ='http://localhost:3000/usuario';
         method = 'POST';
-        data = $('form').serialize();
+        data = form.serialize();
+
         console.log("Salvar");
+
+        Requisitar(url, method, data)
+        .then((response, status, xhr) => {
+            console.log(response);
+        })
+        .catch((error, status, xhr) => {
+            console.error(error);
+        })
     }
 
-    // const Listar = () => {
-    //     url ='http://localhost:3000/usuario';
-    //     method = 'GET';
-    //     data = null;
-    //     console.log("Listar");
-    //     console.log(response);
-    // }
-
     const Listar = (event) => {
-            event.preventDefault();
-            url ='http://localhost:3000/usuario';
-            method = 'GET';
-            data = null;
-            console.log("Listar");
-            Requisitar().done(function(a, b, c){
-                console.log(a, b, c);
-            })
+        event.preventDefault();
+        url ='http://localhost:3000/usuario';
+        method = 'GET';
+        data = null;
+
+        console.log("Listar");
+
+        Requisitar(url, method, data)
+        .then((response, status, xhr) => {
+
+            console.log(table);
+            
+            var linha = table[0].insertRow();
+            var coluna = linha.insertCell(0);
+            var coluna = linha.insertCell(1);
+            
+            const objetos = JSON.parse(response);
+            objetos.forEach((objeto, index, array) => {
+                console.log("_id:", objeto._id);
+                console.log("Nome:", objeto.nome);
+                console.log("Tipo:", objeto.tipo);
+            });
+        })
+        .catch((error, status, xhr) => {
+            console.error(error);
+        })
     }
 
     // $('[data-a]').on('click', function(event) {
