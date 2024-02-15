@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script defer src="main.js"></script>
+</head>
+<body>
+    <form action="" method="">
+        <fieldset>
+            <legend>Consultar</legend>
+            <input type="text" name="id" id="id" placeholder="Id">
+            <button type="submit" data-button="Consutar">Consutar</button>
+            <button type="submit" data-button="Listar">Listar</button>
+        </fieldset>
+        <fieldset>
+            <legend>Cadastro</legend>
+            <input type="text" name="nome" id="nome" placeholder="Nome">
+            <select name="tipo" id="tipo">
+                <option value=""></option>
+                <option value="Gestor">Gestor</option>
+                <option value="Afiliado">Afiliado</option>
+                <option value="Comum">Comum</option>
+            </select>
+            <button type="submit" data-button="Salvar">Salvar</button>
+            <button type="submit" data-button="Excluir">Excluir</button>
+            <button type="reset">Limpar</button>
+        </fieldset>
+    </form>
+</body>
+</html>
