@@ -1,9 +1,9 @@
 export  class Autenticacao {
-    nome: string; 
+    usuario: string; 
     senha: string;
 
-    constructor(nome: string, senha: string){
-        this.nome = nome; 
+    constructor(usuario: string, senha: string){
+        this.usuario = usuario; 
         this.senha = senha; 
     }
 }
