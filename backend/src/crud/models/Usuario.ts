@@ -1,16 +1,14 @@
 export class Usuario{
-    id?: number;
     nome: string;
     tipo: Tipo;
 
-    constructor(id: number, nome: string, tipo: Tipo) {
-        this.id = id;
+    constructor(nome: string, tipo: Tipo) {
         this.nome = nome;
         this.tipo = tipo;
     }
 }
 
-enum Tipo {
+export enum Tipo {
     Gestor = "Gestor",
     Afiliado = "Afiliado",
     Comum = "Comum"

@@ -1,0 +1,56 @@
+<form #kartNgForm="ngForm">
+    <fieldset>
+        <legend>Consultas</legend>
+        <input type="text" name="id" id="id" [(ngModel)]="id"  placeholder="Id">
+        <button (click)="consultar()">Consultar</button>
+        <button (click)="listar()">Listar</button>
+    </fieldset>
+
+    <fieldset>
+        <legend>Kart</legend>
+        <input type="text" name="nome" id="nome" [(ngModel)]="nome" placeholder="Nome">
+        <input type="text" name="marca" id="marca" [(ngModel)]="marca" placeholder="Marca">
+        <input type="text" name="modelo" id="modelo" [(ngModel)]="modelo" placeholder="Modelo">
+        <input type="number" name="potencia" id="potencia" [(ngModel)]="potencia" placeholder="Potência centímetros cúbicos">
+        <input type="text" name="pneus" id="pneus" [(ngModel)]="pneus" placeholder="Pneus marca">
+        <select name="status" id="status" [(ngModel)]="status">
+            <option value=""></option>
+            <option value="Locado">Locado</option>
+            <option value="Manutenção">Manutenção</option>
+            <option value="Disponível">Disponível</option>
+        </select>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Funções</legend>
+        <button (click)="salvar()">Salvar</button>
+        <button (click)="atualizar()">Atualizar</button>
+        <button (click)="excluir()">Excluir</button>
+        <button (click)="limpar()">Limpar</button>
+    </fieldset>
+</form>
+
+<table *ngIf="karts">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Potência</th>
+        <th>Pneus</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let kart of karts">
+            <td>{{ kart._id }}</td>
+            <td>{{ kart.nome }}</td>
+            <td>{{ kart.marca }}</td>
+            <td>{{ kart.modelo }}</td>
+            <td>{{ kart.potencia }}</td>
+            <td>{{ kart.pneus }}</td>
+            <td>{{ kart.status }}</td>
+        </tr>
+    </tbody>
+  </table>

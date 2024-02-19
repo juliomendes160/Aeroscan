@@ -1,19 +1,19 @@
 import { Request, Response } from 'express';
-import * as usuarioDao from '../dao/usuarioDao';
-import  {Usuario, Tipo}  from '../models/Usuario';
+import * as kartDao from '../dao/kartDao';
+import  {Kart, Status}  from '../models/Kart';
 import { ObjectId } from 'mongodb';
 
 export const Salvar = (req: Request, res: Response) => {
 
-    if (!req.body.nome || !req.body.tipo) {
-        res.status(400).json('Operação salvar: campos obrigatórios!');
+    if (!req.body.nome || !req.body.marca || !req.body.modelo || !req.body.potencia || !req.body.pneus || !req.body.status) {
+        res.status(400).json('Operação salvar: campos obrigatórios kart!');
         return;
     }
 
-    const { nome, tipo }: { nome: string, tipo: Tipo } = req.body;
-    const usuario: Usuario = new Usuario(nome, tipo);
+    const { nome, marca, modelo, potencia, pneus, status }: { nome: string, marca: string, modelo: string, potencia:number, pneus: string, status: Status} = req.body;
+    const kart: Kart = new Kart(nome, marca, modelo, potencia, pneus, status);
     
-    usuarioDao.Salvar(usuario).then(() => {
+    kartDao.Salvar(kart).then(() => {
         res.status(200).json('Sucesso na operação salvar!');
     })
     .catch(error => {
@@ -22,8 +22,8 @@ export const Salvar = (req: Request, res: Response) => {
 };
 
 export const Listar = (req: Request, res: Response) =>{
-    usuarioDao.Listar().then(usuarios => {
-        res.status(200).json(usuarios);
+    kartDao.Listar().then(karts => {
+        res.status(200).json(karts);
     })
     .catch(error => {
         res.status(500).json({ message: 'Erro operação listar!', error: error.message });
@@ -37,8 +37,8 @@ export const Consultar = (req: Request, res: Response) => {
         return;
     }
     const id: ObjectId = new ObjectId(req.params.id);
-    usuarioDao.Consultar(id).then(usuario => {
-        res.status(200).json(usuario);
+    kartDao.Consultar(id).then(kart => {
+        res.status(200).json(kart);
     })
     .catch(error => {
         res.status(500).json({ message: 'Erro na operação consultar!', error: error.message });
@@ -53,16 +53,17 @@ export const Atualizar = (req: Request, res: Response) => {
         return;
     }
 
-    if (!req.body.nome || !req.body.tipo) {
-        res.status(400).json({ message: 'Operação atualizar: campos obrigatórios!' });
+    if (!req.body.nome || !req.body.marca || !req.body.modelo || !req.body.potencia || !req.body.pneus || !req.body.status) {
+        res.status(400).json('Operação salvar: campos obrigatórios kart!');
         return;
     }
 
     const id: ObjectId = new ObjectId (req.params.id);
-    const { nome, tipo }: { nome: string; tipo: Tipo } = req.body;
-    const usuario: Usuario = new Usuario(nome, tipo);
+
+    const { nome, marca, modelo, potencia, pneus, status }: { nome: string, marca: string, modelo: string, potencia:number, pneus: string, status: Status} = req.body;
+    const kart: Kart = new Kart(nome, marca, modelo, potencia, pneus, status);
         
-    usuarioDao.Atualizar(id, usuario).then(() => {
+    kartDao.Atualizar(id, kart).then(() => {
         res.status(200).json('Sucesso operação atualizar!');
     })
     .catch(error => {
@@ -79,11 +80,10 @@ export const Excluir = (req: Request, res: Response) => {
 
     const id: ObjectId = new ObjectId (req.params.id);
 
-    usuarioDao.Excluir(id).then(() => {
+    kartDao.Excluir(id).then(() => {
         res.status(200).json('Sucesso operação excluir!');
     })
     .catch(error => {
         res.status(500).json({ message: 'Erro operação excluir!', error: error.message });
     });
 }
-

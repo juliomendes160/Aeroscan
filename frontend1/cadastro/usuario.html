@@ -1,0 +1,31 @@
+<form>
+    <fieldset>
+        <legend>Consultas</legend>
+        <input type="text" name="id" id="id" placeholder="Id">
+        <button type="submit" data-button="Consultar">Consultar</button>
+        <button type="submit" data-button="Listar">Listar</button>
+    </fieldset>
+
+    <fieldset>
+        <legend>Usuário</legend>
+        <input type="text" name="nome" id="nome" placeholder="Nome">
+        <select name="tipo" id="tipo">
+            <option value=""></option>
+            <option value="Gestor">Gestor</option>
+            <option value="Afiliado">Afiliado</option>
+            <option value="Comum">Comum</option>
+        </select>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Funções</legend>
+        <button type="submit" data-button="Salvar">Salvar</button>
+        <button type="submit" data-button="Atualizar">Atualizar</button>
+        <button type="submit" data-button="Excluir">Excluir</button>
+        <button type="reset"  data-button="Limpar">Limpar</button>
+    </fieldset>
+</form>
+
+<table></table>
+
+<script src="cadastro/usuario.js"></script>

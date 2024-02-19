@@ -1,6 +1,7 @@
 # Aeroscan
 
 ```bash
+# backend
 npm init -y
 
 npm install
@@ -15,4 +16,15 @@ npm ls -g --depth=0
 
 node -v
 tsc --init
+```
+
+```bash
+# frontend
+node -v
+nvm ls-remote
+nvm alias default 
+nvm use
+
+npm install @angular/cli --save-dev
+npm list @angular/cli
 ```

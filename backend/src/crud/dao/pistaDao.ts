@@ -1,15 +1,15 @@
 import {MongoClient, ObjectId} from 'mongodb';
-import { Usuario } from '../models/Usuario';
+import { Pista } from '../models/Pista';
 
 const uri = 'mongodb://localhost:27017/';
 const client = new MongoClient(uri);
 const database = client.db('aeroscan');
-const collection = database.collection('usuario');
+const collection = database.collection('pista');
 
-export const Salvar = async (usuario: Usuario) => {
+export const Salvar = async (pista: Pista) => {
     try {
         client.connect();
-        await collection.insertOne(usuario);
+        await collection.insertOne(pista);
     } finally {
         await client.close();
     }
@@ -33,14 +33,14 @@ export const Consultar = async (id: ObjectId) => {
     }
 }
 
-export const Atualizar = async (id: ObjectId, usuario: Usuario) => {
+export const Atualizar = async (id: ObjectId, pista: Pista) => {
     try {
         client.connect();
         return await collection.updateOne(
             { _id: id },
             { $set: { 
-                'nome': usuario.nome, 
-                'tipo': usuario.tipo
+                'pista':pista,
+                'endereco': pista.endereco
             }}
         );
     } finally {

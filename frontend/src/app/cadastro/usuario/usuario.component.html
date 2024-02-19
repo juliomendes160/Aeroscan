@@ -1,0 +1,44 @@
+<form #usuarioNgForm="ngForm">
+    <fieldset>
+        <legend>Consultas</legend>
+        <input type="text" name="id" id="id" [(ngModel)]="id"  placeholder="Id">
+        <button (click)="consultar()">Consultar</button>
+        <button (click)="listar()">Listar</button>
+    </fieldset>
+
+    <fieldset>
+        <legend>Usuário</legend>
+        <input type="text" name="nome" id="nome" [(ngModel)]="nome" placeholder="Nome">
+        <select name="tipo" id="tipo" [(ngModel)]="tipo">
+            <option value=""></option>
+            <option value="Gestor">Gestor</option>
+            <option value="Afiliado">Afiliado</option>
+            <option value="Comum">Comum</option>
+        </select>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Funções</legend>
+        <button (click)="salvar()">Salvar</button>
+        <button (click)="atualizar()">Atualizar</button>
+        <button (click)="excluir()">Excluir</button>
+        <button (click)="limpar()">Limpar</button>
+    </fieldset>
+</form>
+
+<table *ngIf="usuarios">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Tipo</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let usuario of usuarios">
+            <td>{{ usuario._id }}</td>
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.tipo }}</td>
+        </tr>
+    </tbody>
+  </table>

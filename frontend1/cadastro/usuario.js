@@ -21,6 +21,7 @@ $(document).ready(function() {
 
         $.ajax({url: url, method: method, data: data}).then((response, status, xhr) => {
             console.log(response);
+            alert(response.message);
         })
         .catch((error, status, xhr) => {
             console.error(error);
@@ -36,9 +37,15 @@ $(document).ready(function() {
         method = 'GET';
 
         $.ajax({url: url, method: method}).then((response, status, xhr) => {
-            console.log(response);
-
+            
             table.empty();
+
+            if(response.message){
+                console.log(response);
+                alert(response.message)
+                return;
+            }
+
             var row = $('<tr>');
             row.append($('<td>').text('ID'));
             row.append($('<td>').text('Nome'));
@@ -52,7 +59,7 @@ $(document).ready(function() {
                 row.append($('<td>').text(response.tipo));
                 table.append(row);
             });
-        }).catch((error, status, xhr) => {
+        }).catch((error) => {
             console.error(error);
         })
     }
@@ -61,23 +68,37 @@ $(document).ready(function() {
         console.log("Consultar");
 
         event.preventDefault();
-       
+        
         id = form.find("#id").val();
         url =`http://localhost:3000/usuario/${id}`;
         method = 'GET';
+
+        if(!id){
+            console.log('Operação consultar: id obrigatório!');
+            alert('Operação consultar: id obrigatório!');
+            return;
+        }
         
-        $.ajax({url: url, method: method}).then((response, status, xhr) => {
-            console.log(response);
+        $.ajax({url: url, method: method}).then(function(response, status, xhr) {
+
+            if(response.message){
+                alert(response.message)
+                return;
+            }else{
+                console.log(response);
+            }
 
             form.find("#nome").val(response.nome);
             form.find("#tipo").val(response.tipo);
-        }).catch((error, status, xhr) => {
+
+        }).catch(function (error, status, xhr){
             console.error(error);
+            alert(error.responseJSON.message);
         })
     }
 
     const Atualizar = (event) => {
-        // console.log("Atualizar");
+        console.log("Atualizar");
 
         event.preventDefault();
        
@@ -85,46 +106,50 @@ $(document).ready(function() {
         url =`http://localhost:3000/usuario/${id}`;
         method = 'PUT';
         data = form.serialize();
+
+        if(!id){
+            console.log('Operação atualizar: id obrigatório!');
+            alert('Operação atualizar: id obrigatório!');
+            return;
+        }
         
         $.ajax({url: url, method: method, data: data}).then((response, status, xhr) => {
-            // console.log(response);
+            console.log(response);
         }).catch((error, status, xhr) => {
             console.error(error);
         })
     }
 
     const Excluir = (event) => {
-        // console.log("Excluir");
+        console.log("Excluir");
 
         event.preventDefault();
        
         id = form.find("#id").val();
         url =`http://localhost:3000/usuario/${id}`;
         method = 'DELETE';
+
+        if(!id){
+            console.log('Operação excluir: id obrigatório!');
+            alert('Operação excluir: id obrigatório!');
+            return;
+        }
         
         $.ajax({url: url, method: method}).then((response, status, xhr) => {
-            // console.log(response);
+            console.log(response);
         }).catch((error, status, xhr) => {
             console.error(error);
         })
     }
 
     const Limpar = (event) => {
-        // console.log("Limpar");
+        console.log("Limpar");
 
         event.preventDefault();
         
         form.find('input').each(function() {$(this).val("");});
         table.empty();
     }
-
-    // $('[data-a]').on('click', function(event) {
-    //     event.preventDefault();
-    //     console.log(event);
-    //     console.log(this);
-    //     // var target = $(this).data('a');
-    //     // $('main').load(`${target}.html`);
-    // });
 });
 
 

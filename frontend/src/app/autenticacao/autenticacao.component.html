@@ -1,0 +1,8 @@
+<form #auteticacaoNgForm="ngForm">
+    <fieldset>
+        <legend>Login</legend>
+        <input type="text" name="usuario" [(ngModel)]="usuario" placeholder="Usuário">
+        <input type="password" name="senha" [(ngModel)]="senha" placeholder="Senha">
+        <button (click)="login()">Login</button>
+    </fieldset>
+</form>

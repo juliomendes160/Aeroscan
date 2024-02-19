@@ -1,15 +1,15 @@
 import {MongoClient, ObjectId} from 'mongodb';
-import { Usuario } from '../models/Usuario';
+import { Kart } from '../models/Kart';
 
 const uri = 'mongodb://localhost:27017/';
 const client = new MongoClient(uri);
 const database = client.db('aeroscan');
-const collection = database.collection('usuario');
+const collection = database.collection('kart');
 
-export const Salvar = async (usuario: Usuario) => {
+export const Salvar = async (kart: Kart) => {
     try {
         client.connect();
-        await collection.insertOne(usuario);
+        await collection.insertOne(kart);
     } finally {
         await client.close();
     }
@@ -33,14 +33,18 @@ export const Consultar = async (id: ObjectId) => {
     }
 }
 
-export const Atualizar = async (id: ObjectId, usuario: Usuario) => {
+export const Atualizar = async (id: ObjectId, kart: Kart) => {
     try {
         client.connect();
         return await collection.updateOne(
             { _id: id },
             { $set: { 
-                'nome': usuario.nome, 
-                'tipo': usuario.tipo
+                'nome': kart.nome, 
+                'marca': kart.marca,
+                'modelo': kart.modelo, 
+                'potencia': kart.potencia,
+                'pneus': kart.pneus, 
+                'status': kart.status,
             }}
         );
     } finally {

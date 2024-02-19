@@ -1,0 +1,62 @@
+<form #pistaNgForm="ngForm">
+    <fieldset>
+        <legend>Consultas</legend>
+        <input type="text" name="id" id="id" [(ngModel)]="id" placeholder="Id">
+        <button (click)="consultar()">Consultar</button>
+        <button (click)="listar()">Listar</button>
+    </fieldset>
+
+    <fieldset>
+        <legend>Pista</legend>
+        <input type="text" name="nome" id="nome" [(ngModel)]="nome" placeholder="Nome">
+        <input type="number" name="tamanho" id="tamanho" [(ngModel)]="tamanho" placeholder="Tamanho em km">
+        <input type="number" name="boxes" id="boxes" [(ngModel)]="boxes" placeholder="Quantidade de boxes">
+        <input type="number" name="lugares" id="lugares" [(ngModel)]="lugares" placeholder="Quantidade de lugares">
+    </fieldset>
+
+    <fieldset>
+        <legend>Endereço</legend>
+        <div>
+            <input type="text" name="cep" id="cep" [(ngModel)]="cep" placeholder="CEP">
+            <button (click)="pesquisar()">Pesquisar</button>
+        </div>
+        
+        <div>
+            <input type="text" name="logradouro" id="logradouro" [(ngModel)]="logradouro" placeholder="Logradouro">
+            <input type="text" name="complemento" id="complemento" [(ngModel)]="complemento" placeholder="Complemento">
+            <input type="number" name="numero" id="numero" [(ngModel)]="numero" placeholder="Número">
+            <input type="text" name="bairro" id="bairro" [(ngModel)]="bairro" placeholder="Bairro">
+            <input type="text" name="cidade" id="cidade" [(ngModel)]="cidade" placeholder="Cidade">
+            <input type="text" name="estado" id="estado" [(ngModel)]="estado" placeholder="Estado">
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Funções</legend>
+        <button (click)="salvar()">Salvar</button>
+        <button (click)="atualizar()">Atualizar</button>
+        <button (click)="excluir()">Excluir</button>
+        <button (click)="limpar()">Limpar</button>
+    </fieldset>
+</form>
+
+<table *ngIf="pistas">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Tamanho</th>
+        <th>Boxes</th>
+        <th>Lugares</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let pista of pistas">
+            <td>{{ pista._id }}</td>
+            <td>{{ pista.nome }}</td>
+            <td>{{ pista.tamanho }}</td>
+            <td>{{ pista.boxes }}</td>
+            <td>{{ pista.lugares }}</td>
+        </tr>
+    </tbody>
+</table>

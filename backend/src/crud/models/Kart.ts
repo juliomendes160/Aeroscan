@@ -1,16 +1,23 @@
-interface Kart {
-    id: number; 
+export  class Kart {
     nome: string; 
     marca: string;
     modelo: string;
     potencia: number;
     pneus: string;
     status: Status;
-    alocadoPistaId: number | null; 
+
+    constructor(nome: string, marca: string, modelo: string, potencia:number, pneus: string, status: Status){
+        this.nome = nome; 
+        this.marca = marca; 
+        this.modelo = modelo; 
+        this.potencia = potencia; 
+        this.pneus = pneus; 
+        this.status = status;
+    }
 }
 
-enum Status {
-    Locado = "L",
-    Manutencao = "M",
-    Disponivel = "D"
+export enum Status {
+    Locado = "Locado",
+    Manutencao = "Manutenção",
+    Disponivel = "Disponível"
 }
