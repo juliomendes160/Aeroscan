@@ -12,25 +12,72 @@ import { FormsModule, NgForm } from '@angular/forms';
 })
 export class AutenticacaoComponent {
 
-  @ViewChild('kartNgForm') auteticacaoNgForm!: NgForm;
+  
+  @ViewChild('auteticacaoNgForm') auteticacaoNgForm!: NgForm;
 
   usuario: any;
   senha: any;
 
   constructor(private http: HttpClient) {}
 
-  login(){
-    this.http.post<any>('http://localhost:3000/autenticacao', this.auteticacaoNgForm.value)
+  // constructor(private authService: AuthService) {}
+
+  register(){
+    this.http.post<any>('http://localhost:3000/autenticacao/register', this.auteticacaoNgForm.value)
       .subscribe({
         next: (response) => {
           console.log(response);
-
-          // Armazenar o token de autenticação no localStorage
-          localStorage.setItem('token', response.token);
         },
         error: (error) => {
           console.error(error);
         }
       });
+  }
+
+  login(){
+    this.http.post<any>('http://localhost:3000/autenticacao/login', this.auteticacaoNgForm.value)
+      .subscribe({
+        
+        next: (response) => {
+          
+          if(!response){
+            alert(response);
+            return;
+          }
+          localStorage.setItem('token', response);
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      });
+  }
+
+  logout(){
+    localStorage.removeItem('token');
+  }
+
+  token(){
+    debugger;
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.http.post<any>('http://localhost:3000/autenticacao/token', {}, {
+        headers: {
+          Authorization: token
+        }
+      }).subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      });
+    } else {
+      console.error('Token não encontrado no localStorage.');
+    }
+  }
+
+  limpar() {
+    this.auteticacaoNgForm.resetForm();
   }
 }

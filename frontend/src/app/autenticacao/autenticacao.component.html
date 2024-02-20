@@ -3,6 +3,14 @@
         <legend>Autenticação</legend>
         <input type="text" name="usuario" [(ngModel)]="usuario" placeholder="Usuário">
         <input type="password" name="senha" [(ngModel)]="senha" placeholder="Senha">
+    </fieldset>
+
+    <fieldset>
+        <legend>Funções</legend>
+        <button (click)="register()">Register</button>
         <button (click)="login()">Login</button>
+        <button (click)="logout()">Logout</button>
+        <button (click)="token()">Token</button>
+        <button (click)="limpar()">Limpar</button>
     </fieldset>
 </form>
