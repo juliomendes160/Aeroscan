@@ -1,7 +1,8 @@
+import { CadastroService } from './../cadastro.service';
 import { CommonModule } from '@angular/common';
-import { HttpClient} from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { Usuario } from './usuario';
 
 @Component({
   selector: 'app-usuario',
@@ -13,19 +14,21 @@ import { FormsModule, NgForm } from '@angular/forms';
 
 export class UsuarioComponent  {
   
+  private readonly url = 'http://localhost:3000/usuario/'
+  
   @ViewChild('usuarioNgForm') usuarioNgForm!: NgForm;
 
-  id: any; 
-  nome: any; 
-  tipo: any;
-  
-  usuarios: any;
+  usuario: Usuario = {
+    _id: '',
+    nome: '',
+    tipo: '',
+  }
+  usuarios: Usuario[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private service: CadastroService) {}
   
   salvar() {
-
-     this.http.post<any>('http://localhost:3000/usuario', this.usuarioNgForm.value)
+    this.service.salvar<Usuario>(this.url, this.usuario)
       .subscribe({
         next: (response) => {
           console.log(response);
@@ -37,7 +40,7 @@ export class UsuarioComponent  {
   }
 
   listar() {
-    this.http.get<[any]>('http://localhost:3000/usuarios')
+    this.service.listar<Usuario>(this.url)
       .subscribe({
         next: (response) => {
           if (response.length > 0) {
@@ -53,20 +56,20 @@ export class UsuarioComponent  {
   }
 
   consultar() {
-    
-    if(!this.id){
+
+    if(!this.usuario._id){
       console.log('Operação consultar: id obrigatório!');
       alert('Operação consultar: id obrigatório!');
       return;
     }
 
-    this.http.get<any>(`http://localhost:3000/usuario/${this.id}`)
+    this.service.consultar<Usuario>(this.url + this.usuario._id)
     .subscribe({
       next: (response) => {
         if (response) {
-            this.id = response._id;
-            this.nome = response.nome;
-            this.tipo = response.tipo;
+            this.usuario._id = response._id;
+            this.usuario.nome = response.nome;
+            this.usuario.tipo = response.tipo;
         }else{
           alert("Resposta: Sucesso operação consultar: sem dados para exibir!");
         }
@@ -78,13 +81,13 @@ export class UsuarioComponent  {
   }
 
   atualizar(){
-    if(!this.id){
+    if(!this.usuario._id){
       console.log('Operação consultar: id obrigatório!');
       alert('Operação consultar: id obrigatório!');
       return;
     }
 
-    this.http.put<any>(`http://localhost:3000/usuario/${this.id}`, this.usuarioNgForm.value)
+    this.service.atualizar<Usuario>(this.url + this.usuario._id, this.usuario)
     .subscribe({
       next: (response) => {
         console.log(response);
@@ -96,13 +99,13 @@ export class UsuarioComponent  {
   }
 
   excluir() {
-    if(!this.id){
+    if(!this.usuario._id){
       console.log('Operação consultar: id obrigatório!');
       alert('Operação consultar: id obrigatório!');
       return;
     }
 
-    this.http.delete<any>(`http://localhost:3000/usuario/${this.id}`)
+    this.service.excluir<Usuario>(this.url + this.usuario._id)
     .subscribe({
       next: (response) => {
         console.log(response);
@@ -114,7 +117,6 @@ export class UsuarioComponent  {
   }
 
   limpar() {
-    this.usuarioNgForm.resetForm();
-    this.usuarios = undefined;
+    this.service.limpar(this.usuarios);
   }
 }

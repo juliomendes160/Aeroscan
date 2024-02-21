@@ -1,15 +1,15 @@
 <form #usuarioNgForm="ngForm">
     <fieldset>
         <legend>Consultas</legend>
-        <input type="text" name="id" id="id" [(ngModel)]="id"  placeholder="Id">
+        <input type="text" name="id" id="id" [(ngModel)]="usuario._id"  placeholder="Id">
         <button (click)="consultar()">Consultar</button>
         <button (click)="listar()">Listar</button>
     </fieldset>
 
     <fieldset>
         <legend>Usuário</legend>
-        <input type="text" name="nome" id="nome" [(ngModel)]="nome" placeholder="Nome">
-        <select name="tipo" id="tipo" [(ngModel)]="tipo">
+        <input type="text" name="nome" id="nome" [(ngModel)]="usuario.nome" placeholder="Nome">
+        <select name="tipo" id="tipo" [(ngModel)]="usuario.tipo">
             <option value=""></option>
             <option value="Gestor">Gestor</option>
             <option value="Afiliado">Afiliado</option>
