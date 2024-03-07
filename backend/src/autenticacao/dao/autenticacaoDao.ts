@@ -1,6 +1,7 @@
 import {MongoClient} from 'mongodb';
 import { Autenticacao } from '../models/Autenticacao';
 import jwt from 'jsonwebtoken';
+import { NextFunction } from 'express';
 
 const uri = 'mongodb://localhost:27017/';
 const client = new MongoClient(uri);
@@ -25,7 +26,7 @@ export const Login = async (autenticacao: Autenticacao) => {
             const payload = {
                 usuario: result.usuario,
                 timestamp: Date.now()
-              };
+            };
               
             const token = jwt.sign(payload, 'chave-secreta');
             return token;

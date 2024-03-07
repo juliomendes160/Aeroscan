@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import  {Autenticacao}  from '../models/Autenticacao';
 import * as autenticacaoDao from '../dao/autenticacaoDao';
 import jwt from 'jsonwebtoken';
+import { NextFunction } from 'express-serve-static-core';
 
 export const Register = (req: Request, res: Response) => {
 
@@ -44,17 +45,17 @@ export const Login = (req: Request, res: Response) => {
     });
 }
 
-export const Token = (req: Request, res: Response) => {
+export const Validar = (req: Request, res: Response, next: NextFunction) => {
+  
+    if (!req.headers.authorization) {
+        return res.status(404).json('Operação token: token obrigatório!');
+    }
 
     const token = req.headers.authorization;
-  
-    if (!token) {
-        return res.status(404).json('Operação token: inválido!');
-    }
     
     try {
-        const payload = jwt.verify(token, 'chave-secreta');
-        
+        jwt.verify(token, 'chave-secreta');
+        next();
     } catch (error) {
         return res.status(400).json('Token inválido' );
     }

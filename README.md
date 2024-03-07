@@ -1,7 +1,10 @@
 # Aeroscan
 
-```bash
-# backend
+```bash backend
+node -v
+
+npx ts-node server.ts
+
 npm init -y
 
 npm install
@@ -14,13 +17,15 @@ npm install typescript --save-dev
 
 npm ls -g --depth=0
 
-node -v
 tsc --init
+
 ```
 
-```bash
-# frontend
+```bash frontend
 node -v
+
+ng serve
+
 nvm ls-remote
 nvm alias default 
 nvm use

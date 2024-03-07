@@ -1,69 +1,75 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormGroup, FormsModule, FormBuilder, ReactiveFormsModule, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-pista',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './pista.component.html',
   styleUrl: './pista.component.css'
 })
 export class PistaComponent {
 
-  @ViewChild('pistaNgForm') pistaNgForm!: NgForm;
+  private readonly path = '/pista/'
 
-  id: any;
+  pista: FormGroup;
 
-  nome: any; tamanho:any; boxes: any; lugares: any;
+  pistas: FormGroup;
 
-  cep: any; logradouro: any; complemento:any; numero: any; bairro: any; cidade: any; estado: any;
+  constructor(private http: HttpClient, private FormBuilder: FormBuilder) {
+    this.pista = this.FormBuilder.group({
+      _id: [''], nome: [''],  tamanho: [''],  boxes: [''],  lugares: [''],
+      
+      endereco: this.FormBuilder.group({
+        cep: [''],  logradouro: [''],  complemento: [''],  numero: [''],  bairro: [''],  cidade: [''],  estado: [''],
+      }),
+    });
 
-  pistas: any;
-
-  constructor(private http: HttpClient) {}
+    this.pistas = this.FormBuilder.group([]);
+  }
 
   pesquisar() {
     
-    switch(true){
-      case !this.cep:{
-        console.log('Operação pesquisar: cep obrigatório!');
-        alert('Operação pesquisar: cep obrigatório!');
-        return;
-      }
-      case !this.cep.match(/^[0-9]{5}-?[0-9]{3}$/):{
-        console.log('Operação pesquisar: cep inválido!');
-        alert('Operação pesquisar: cep inválido!');
-        return;
-      }
-    }
+  //   switch(true){
+  //     case !this.cep:{
+  //       console.log('Operação pesquisar: cep obrigatório!');
+  //       alert('Operação pesquisar: cep obrigatório!');
+  //       return;
+  //     }
+  //     case !this.cep.match(/^[0-9]{5}-?[0-9]{3}$/):{
+  //       console.log('Operação pesquisar: cep inválido!');
+  //       alert('Operação pesquisar: cep inválido!');
+  //       return;
+  //     }
+  //   }
 
-    this.cep = this.cep.replace('-','');
+  //   this.cep = this.cep.replace('-','');
 
-    this.http.get<any>(`https://viacep.com.br/ws/${this.cep}/json/`)
-    .subscribe({
-      next: (response) => {
-        if (response) {
-            this.cep = response.cep;
-            this.logradouro = response.logradouro;
-            this.complemento = response.complemento;
-            this.numero;
-            this.bairro = response.bairro;
-            this.cidade = response.localidade;
-            this.estado = response.uf;
-        }else{
-          alert("Sucesso operação pesquisar: sem dados para exibir!");
-        }
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    });
+  //   this.http.get<any>(`https://viacep.com.br/ws/${this.cep}/json/`)
+  //   .subscribe({
+  //     next: (response) => {
+  //       if (response) {
+  //           this.cep = response.cep;
+  //           this.logradouro = response.logradouro;
+  //           this.complemento = response.complemento;
+  //           this.numero;
+  //           this.bairro = response.bairro;
+  //           this.cidade = response.localidade;
+  //           this.estado = response.uf;
+  //       }else{
+  //         alert("Sucesso operação pesquisar: sem dados para exibir!");
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.error(error);
+  //     }
+  //   });
   }
 
   salvar() {
-    this.http.post<any>('http://localhost:3000/pista', this.pistaNgForm.value)
+    this.http.post<FormGroup>('http://localhost:3000/pista', this.pista.value)
       .subscribe({
         next: (response) => {
           console.log(response);
@@ -75,14 +81,15 @@ export class PistaComponent {
   }
 
   listar() {
-    this.http.get<any>('http://localhost:3000/pistas')
+    this.http.get<FormGroup[]>('http://localhost:3000/pistas')
       .subscribe({
         next: (response) => {
-          if (response.length) {
-            this.pistas = response;
-          }else{
-             alert("Sucesso operação listar: sem dados para exibir!");
+          if (!response) {
+            return alert("Sucesso: operação listar sem dados para exibir!");
           }
+          console.log(this.pistas);
+          this.pistas.value.patchValue(response);
+          console.log(this.pistas);
         },
         error: (error) => {
           console.error(error);
@@ -92,32 +99,19 @@ export class PistaComponent {
 
   consultar() {
     
-    if(!this.id){
+    if(!this.pista.value._id){
       console.log('Operação consultar: id obrigatório!');
       alert('Operação consultar: id obrigatório!');
       return;
     }
 
-    this.http.get<any>(`http://localhost:3000/pista/${this.id}`)
+    this.http.get<FormGroup>(`http://localhost:3000/pista/${this.pista.value._id}`)
     .subscribe({
       next: (response) => {
-        if (response) {
-            this.id = response._id;
-            this.nome = response.nome;
-            this.tamanho = response.tamanho;
-            this.boxes = response.boxes;
-            this.lugares = response.lugares;
-
-            this.cep = response.endereco.cep;
-            this.logradouro = response.endereco.logradouro;
-            this.complemento = response.endereco.complemento;
-            this.numero = response.endereco.numero;
-            this.bairro = response.endereco.bairro;
-            this.cidade = response.endereco.cidade;
-            this.estado = response.endereco.estado;
-        }else{
-          alert("Resposta: Sucesso operação consultar: sem dados para exibir!");
+        if (!response) {
+            return alert("Sucesso: operação consultar sem dados para exibir!");
         }
+        this.pista.patchValue(response);
       },
       error: (error) => {
         console.error(error);
@@ -126,13 +120,13 @@ export class PistaComponent {
   }
 
   atualizar(){
-    if(!this.id){
+    if(!this.pista.value._id){
       console.log('Operação consultar: id obrigatório!');
       alert('Operação consultar: id obrigatório!');
       return;
     }
 
-    this.http.put<any>(`http://localhost:3000/pista/${this.id}`, this.pistaNgForm.value)
+    this.http.put<FormGroup>(`http://localhost:3000/pista/${this.pista.value._id}`, this.pista)
     .subscribe({
       next: (response) => {
         console.log(response);
@@ -144,13 +138,13 @@ export class PistaComponent {
   }
 
   excluir() {
-    if(!this.id){
+    if(!this.pista.value._id){
       console.log('Operação consultar: id obrigatório!');
       alert('Operação consultar: id obrigatório!');
       return;
     }
 
-    this.http.delete<any>(`http://localhost:3000/pista/${this.id}`)
+    this.http.delete<FormGroup>(`http://localhost:3000/pista/${this.pista.value._id}`)
     .subscribe({
       next: (response) => {
         console.log(response);
@@ -162,7 +156,7 @@ export class PistaComponent {
   }
 
   limpar() {
-    this.pistaNgForm.resetForm();
-    this.pistas = undefined;
+    // this.pista.reset();
+    // this.pistas = [];
   }
 }

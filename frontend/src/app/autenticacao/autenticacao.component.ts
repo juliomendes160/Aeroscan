@@ -1,50 +1,35 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormGroup, FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { AutenticacaoService } from './autenticacao.service';
 
 @Component({
   selector: 'app-autenticacao',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
+  providers: [AutenticacaoService],
   templateUrl: './autenticacao.component.html',
   styleUrl: './autenticacao.component.css'
 })
 export class AutenticacaoComponent {
 
-  
-  @ViewChild('auteticacaoNgForm') auteticacaoNgForm!: NgForm;
+  private readonly url = 'http://localhost:3000/autenticacao'
 
-  usuario: any;
-  senha: any;
+  autenticacao:FormGroup;
 
-  constructor(private http: HttpClient) {}
-
-  // constructor(private authService: AuthService) {}
-
-  register(){
-    this.http.post<any>('http://localhost:3000/autenticacao/register', this.auteticacaoNgForm.value)
-      .subscribe({
-        next: (response) => {
-          console.log(response);
-        },
-        error: (error) => {
-          console.error(error);
-        }
-      });
+  constructor(private http: HttpClient, private service: AutenticacaoService, private FormBuilder: FormBuilder) {
+    this.autenticacao = this.FormBuilder.group({
+      usuario: [''],
+      senha: [''],
+    })
   }
 
   login(){
-    this.http.post<any>('http://localhost:3000/autenticacao/login', this.auteticacaoNgForm.value)
+    this.http.post(`${this.url}/login`, this.autenticacao.value)
       .subscribe({
-        
         next: (response) => {
-          
-          if(!response){
-            alert(response);
-            return;
-          }
-          localStorage.setItem('token', response);
+          localStorage.setItem('token', response.toString());
         },
         error: (error) => {
           console.error(error);
@@ -56,28 +41,19 @@ export class AutenticacaoComponent {
     localStorage.removeItem('token');
   }
 
-  token(){
-    debugger;
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.http.post<any>('http://localhost:3000/autenticacao/token', {}, {
-        headers: {
-          Authorization: token
-        }
-      }).subscribe({
-        next: (response) => {
-          console.log(response);
-        },
-        error: (error) => {
-          console.error(error);
-        }
-      });
-    } else {
-      console.error('Token não encontrado no localStorage.');
-    }
+  register(){
+    this.http.post(`${this.url}/register`, this.autenticacao.value, {headers: this.service.getHeaders()})
+    .subscribe({
+      next: (response) => {
+        console.log(response);
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
 
   limpar() {
-    this.auteticacaoNgForm.resetForm();
+    this.autenticacao.reset();
   }
 }

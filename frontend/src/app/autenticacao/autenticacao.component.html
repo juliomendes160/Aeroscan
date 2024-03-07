@@ -1,8 +1,8 @@
-<form #auteticacaoNgForm="ngForm">
+<form [formGroup]="autenticacao">
     <fieldset>
         <legend>Autenticação</legend>
-        <input type="text" name="usuario" [(ngModel)]="usuario" placeholder="Usuário">
-        <input type="password" name="senha" [(ngModel)]="senha" placeholder="Senha">
+        <input type="text" formControlName="usuario" placeholder="Usuário">
+        <input type="password" formControlName="senha" placeholder="Senha">
     </fieldset>
 
     <fieldset>
@@ -10,7 +10,6 @@
         <button (click)="register()">Register</button>
         <button (click)="login()">Login</button>
         <button (click)="logout()">Logout</button>
-        <button (click)="token()">Token</button>
         <button (click)="limpar()">Limpar</button>
     </fieldset>
 </form>

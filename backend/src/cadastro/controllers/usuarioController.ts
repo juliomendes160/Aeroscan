@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as usuarioDao from '../dao/usuarioDao';
+import * as usuarioDao from '../daos/usuarioDao';
 import  {Usuario, Tipo}  from '../models/Usuario';
 import { ObjectId } from 'mongodb';
 
@@ -14,10 +14,10 @@ export const Salvar = (req: Request, res: Response) => {
     const usuario: Usuario = new Usuario(nome, tipo);
     
     usuarioDao.Salvar(usuario).then(() => {
-        res.status(200).json('Sucesso na operação salvar!');
+        res.status(200).json('Sucesso: operação salvar!');
     })
     .catch(error => {
-        res.status(500).json({ message: 'Erro na operação salvar!', error: error.message });
+        res.status(500).json({ message: 'Erro: operação salvar!', error: error.message });
     });
 };
 
@@ -26,7 +26,7 @@ export const Listar = (req: Request, res: Response) =>{
         res.status(200).json(usuarios);
     })
     .catch(error => {
-        res.status(500).json({ message: 'Erro operação listar!', error: error.message });
+        res.status(500).json({ message: 'Erro: operação listar!', error: error.message });
     });
 }
 
@@ -41,7 +41,7 @@ export const Consultar = (req: Request, res: Response) => {
         res.status(200).json(usuario);
     })
     .catch(error => {
-        res.status(500).json({ message: 'Erro na operação consultar!', error: error.message });
+        res.status(500).json({ message: 'Erro: operação consultar!', error: error.message });
     });
     
 }
@@ -63,10 +63,10 @@ export const Atualizar = (req: Request, res: Response) => {
     const usuario: Usuario = new Usuario(nome, tipo);
         
     usuarioDao.Atualizar(id, usuario).then(() => {
-        res.status(200).json('Sucesso operação atualizar!');
+        res.status(200).json('Sucesso: operação atualizar!');
     })
     .catch(error => {
-        res.status(500).json({ message: 'Erro operação atualizar!', error: error.message });
+        res.status(500).json({ message: 'Erro: operação atualizar!', error: error.message });
     });
 }
 

@@ -1,15 +1,15 @@
-<form #usuarioNgForm="ngForm">
+<form [formGroup]="usuario">
     <fieldset>
         <legend>Consultas</legend>
-        <input type="text" name="id" id="id" [(ngModel)]="usuario._id"  placeholder="Id">
+        <input type="text" formControlName="_id"  placeholder="Id">
         <button (click)="consultar()">Consultar</button>
         <button (click)="listar()">Listar</button>
     </fieldset>
 
     <fieldset>
         <legend>Usuário</legend>
-        <input type="text" name="nome" id="nome" [(ngModel)]="usuario.nome" placeholder="Nome">
-        <select name="tipo" id="tipo" [(ngModel)]="usuario.tipo">
+        <input type="text" formControlName="nome" placeholder="Nome">
+        <select name="tipo" formControlName="tipo">
             <option value=""></option>
             <option value="Gestor">Gestor</option>
             <option value="Afiliado">Afiliado</option>
@@ -26,7 +26,7 @@
     </fieldset>
 </form>
 
-<table *ngIf="usuarios">
+<table *ngIf="usuario.value.usuarios.length">
     <thead>
       <tr>
         <th>ID</th>
@@ -35,7 +35,7 @@
       </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let usuario of usuarios">
+        <tr *ngFor="let usuario of usuario.value.usuarios">
             <td>{{ usuario._id }}</td>
             <td>{{ usuario.nome }}</td>
             <td>{{ usuario.tipo }}</td>

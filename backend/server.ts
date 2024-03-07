@@ -1,10 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import * as usuarioRoutes from './src/crud/routes/usuarioRoutes';
-import * as pistaRoutes from './src/crud/routes/pistaRoutes';
-import * as kartRoutes from './src/crud/routes/kartRoutes';
-import * as autenticacaoRoutes from './src/auth/routes/autenticacaoRoutes';
+import * as usuarioRoutes from './src/cadastro/routes/usuarioRoutes';
+import * as pistaRoutes from './src/cadastro/routes/pistaRoutes';
+import * as kartRoutes from './src/cadastro/routes/kartRoutes';
+import * as autenticacaoRoutes from './src/autenticacao/routes/autenticacaoRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;

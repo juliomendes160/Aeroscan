@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Pista } from './../models/Pista';
 import { Endereco } from './../models/Endereco';
 import { ObjectId } from 'mongodb';
-import * as pistaDao from '../dao/pistaDao';
+import * as pistaDao from '../daos/pistaDao';
 
 
 export const Salvar = (req: Request, res: Response) => {

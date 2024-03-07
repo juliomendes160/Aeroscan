@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as kartDao from '../dao/kartDao';
+import * as kartDao from '../daos/kartDao';
 import  {Kart, Status}  from '../models/Kart';
 import { ObjectId } from 'mongodb';
 

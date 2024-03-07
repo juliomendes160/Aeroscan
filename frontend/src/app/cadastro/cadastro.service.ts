@@ -1,36 +1,36 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-
+import { AutenticacaoService } from '../autenticacao/autenticacao.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CadastroService {
+export class CadastroService extends AutenticacaoService{
 
-  constructor(private http: HttpClient) { }
+  private readonly domain = 'http://localhost:3000'
 
-  salvar<T>(url: string, objeto: T): Observable<T> {
-    return this.http.post<T>(url, objeto);
+  constructor(private http: HttpClient) {
+    super();
+   }
+
+  salvar<T>(path: string, formGroup: FormGroup): Observable<T> {
+    return this.http.post<T>(`${this.domain}${path}`, formGroup.value);
   }
 
-  listar<T>(url: string): Observable<T[]> {
-    return this.http.get<T[]>(url);
+  listar<T>(path: string): Observable<T[]> {
+    return this.http.get<T[]>(`${this.domain}${path}`);
   }
 
-  consultar<T>(url: string): Observable<T> {
-    return this.http.get<T>(url);
+  consultar<T>(path: string): Observable<T> {
+    return this.http.get<T>(`${this.domain}${path}`);
   }
 
-  atualizar<T>(url: string, objeto: T): Observable<T> {
-    return this.http.put<T>(url, objeto);
+  atualizar<T>(path: string, formGroup: FormGroup): Observable<T> {
+    return this.http.put<T>(`${this.domain}${path}`, formGroup.value);
   }
 
-  excluir<T>(url: string): Observable<T> {
-    return this.http.delete<T>(url);
+  excluir<T>(path: string): Observable<T> {
+    return this.http.delete<T>(`${this.domain}${path}`);
   }
-
-  limpar<T>(objeto: T[]): void  {
-    objeto = [];
-  }
-
 }

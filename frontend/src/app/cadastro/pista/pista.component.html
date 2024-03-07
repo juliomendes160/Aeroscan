@@ -1,33 +1,33 @@
-<form #pistaNgForm="ngForm">
+<form [formGroup]="pista">
     <fieldset>
         <legend>Consultas</legend>
-        <input type="text" name="id" id="id" [(ngModel)]="id" placeholder="Id">
+        <input type="text" formControlName="_id" placeholder="Id">
         <button (click)="consultar()">Consultar</button>
         <button (click)="listar()">Listar</button>
     </fieldset>
 
-    <fieldset>
+    <fieldset >
         <legend>Pista</legend>
-        <input type="text" name="nome" id="nome" [(ngModel)]="nome" placeholder="Nome">
-        <input type="number" name="tamanho" id="tamanho" [(ngModel)]="tamanho" placeholder="Tamanho em km">
-        <input type="number" name="boxes" id="boxes" [(ngModel)]="boxes" placeholder="Quantidade de boxes">
-        <input type="number" name="lugares" id="lugares" [(ngModel)]="lugares" placeholder="Quantidade de lugares">
+        <input type="text" formControlName="nome" placeholder="Nome">
+        <input type="number"  formControlName="tamanho" placeholder="Tamanho em km">
+        <input type="number" formControlName="boxes" placeholder="Quantidade de boxes">
+        <input type="number" formControlName="lugares" placeholder="Quantidade de lugares">
     </fieldset>
 
-    <fieldset>
+    <fieldset formGroupName="endereco">
         <legend>Endereço</legend>
         <div>
-            <input type="text" name="cep" id="cep" [(ngModel)]="cep" placeholder="CEP">
+            <input type="text" name="cep" id="cep" formControlName="cep" placeholder="CEP">
             <button (click)="pesquisar()">Pesquisar</button>
         </div>
         
         <div>
-            <input type="text" name="logradouro" id="logradouro" [(ngModel)]="logradouro" placeholder="Logradouro">
-            <input type="text" name="complemento" id="complemento" [(ngModel)]="complemento" placeholder="Complemento">
-            <input type="number" name="numero" id="numero" [(ngModel)]="numero" placeholder="Número">
-            <input type="text" name="bairro" id="bairro" [(ngModel)]="bairro" placeholder="Bairro">
-            <input type="text" name="cidade" id="cidade" [(ngModel)]="cidade" placeholder="Cidade">
-            <input type="text" name="estado" id="estado" [(ngModel)]="estado" placeholder="Estado">
+            <input type="text" formControlName="logradouro" placeholder="Logradouro">
+            <input type="text" formControlName="complemento" placeholder="Complemento">
+            <input type="number" formControlName="numero" placeholder="Número">
+            <input type="text" formControlName="bairro" placeholder="Bairro">
+            <input type="text" formControlName="cidade" placeholder="Cidade">
+            <input type="text" formControlName="estado" placeholder="Estado">
         </div>
     </fieldset>
 
@@ -40,7 +40,7 @@
     </fieldset>
 </form>
 
-<table *ngIf="pistas">
+<!-- <table *ngIf="pistas.length">
     <thead>
       <tr>
         <th>ID</th>
@@ -59,4 +59,4 @@
             <td>{{ pista.lugares }}</td>
         </tr>
     </tbody>
-</table>
+</table> -->
